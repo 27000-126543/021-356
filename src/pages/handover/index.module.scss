@@ -1,0 +1,138 @@
+@use '@/styles/variables.scss' as *;
+
+.page {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding: $spacing-lg $page-padding 140rpx;
+}
+
+.pageHeader {
+  margin-bottom: $spacing-lg;
+}
+
+.pageTitle {
+  font-size: 40rpx;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-xs;
+}
+
+.pageDesc {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.card {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  box-shadow: $shadow-card;
+  margin-bottom: $spacing-md;
+  transition: all $transition-base;
+
+  &:active {
+    transform: scale(0.99);
+    opacity: 0.95;
+  }
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-md;
+}
+
+.shiftLabel {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.dateText {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.infoGrid {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-md;
+}
+
+.infoRow {
+  display: flex;
+}
+
+.infoLabel {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+  width: 120rpx;
+  flex-shrink: 0;
+}
+
+.infoValue {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  flex: 1;
+  @include text-ellipsis-multi(2);
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: $spacing-md;
+  border-top: 1px solid $color-divider;
+}
+
+.userText {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+  @include text-ellipsis;
+  flex: 1;
+  min-width: 0;
+}
+
+.empty {
+  padding: 160rpx 0;
+  text-align: center;
+}
+
+.emptyText {
+  font-size: $font-size-md;
+  color: $color-text-tertiary;
+  margin-bottom: $spacing-md;
+}
+
+.emptyHint {
+  font-size: $font-size-sm;
+  color: $color-text-disabled;
+}
+
+.fab {
+  position: fixed;
+  right: 40rpx;
+  bottom: 140rpx;
+  padding: 0 40rpx;
+  height: 88rpx;
+  border-radius: $radius-button;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  box-shadow: 0 8rpx 24rpx rgba(30, 111, 255, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99;
+  transition: all $transition-base;
+
+  &:active {
+    transform: scale(0.96);
+  }
+}
+
+.fabText {
+  color: $color-text-white;
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+}

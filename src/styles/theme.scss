@@ -1,0 +1,40 @@
+// ============================================
+// 主题配色变量 - 混凝土浇筑旁站小程序
+// ============================================
+
+// 品牌主题色：工程蓝
+$color-primary: #1E6FFF;
+$color-primary-light: #4A8CFF;
+$color-primary-dark: #1555CC;
+$color-primary-bg: rgba(30, 111, 255, 0.08);
+
+// 功能色
+$color-success: #00B42A;
+$color-success-bg: rgba(0, 180, 42, 0.08);
+$color-warning: #FF7D00;
+$color-warning-bg: rgba(255, 125, 0, 0.08);
+$color-error: #F53F3F;
+$color-error-bg: rgba(245, 63, 63, 0.08);
+$color-info: #1E6FFF;
+
+// 背景色
+$color-bg-page: #F5F7FA;
+$color-bg-card: #FFFFFF;
+$color-bg-hover: #F2F3F5;
+$color-bg-section: #FAFBFC;
+
+// 文本色
+$color-text-primary: #1D2129;
+$color-text-secondary: #4E5969;
+$color-text-tertiary: #86909C;
+$color-text-disabled: #C9CDD4;
+$color-text-white: #FFFFFF;
+
+// 边框色
+$color-border: #E5E6EB;
+$color-divider: #F2F3F5;
+
+// 业务色
+$color-foreman: #1E6FFF;      // 班组长 - 蓝
+$color-tester: #722ED1;       // 试验员 - 紫
+$color-supervisor: #0FC6C2;   // 监理员 - 青

@@ -1,0 +1,39 @@
+@use '@/styles/variables.scss' as *;
+
+.wrap {
+  display: flex;
+  background: $color-bg-section;
+  border-radius: $radius-lg;
+  padding: 6rpx;
+  gap: 6rpx;
+}
+
+.tab {
+  flex: 1;
+  height: 60rpx;
+  border-radius: $radius-md;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid transparent;
+  transition: all $transition-base;
+
+  &:active {
+    opacity: 0.9;
+  }
+}
+
+.tabText {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  font-weight: $font-weight-medium;
+}
+
+.active {
+  background: $color-primary;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+}
+
+.activeText {
+  color: $color-text-white;
+}

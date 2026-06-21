@@ -1,0 +1,63 @@
+@use '@/styles/variables.scss' as *;
+
+.row {
+  display: flex;
+  align-items: center;
+  padding: $spacing-md 0;
+  border-bottom: 1px solid $color-divider;
+  transition: all $transition-fast;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:active:not(.disabled) {
+    opacity: 0.85;
+  }
+}
+
+.disabled {
+  opacity: 0.6;
+}
+
+.checkbox {
+  width: 40rpx;
+  height: 40rpx;
+  border: 2px solid $color-border;
+  border-radius: $radius-sm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: $spacing-md;
+  flex-shrink: 0;
+  background: $color-bg-card;
+  transition: all $transition-base;
+
+  &.checked {
+    background: $color-success;
+    border-color: $color-success;
+  }
+
+  &.disabledChecked {
+    background: $color-text-tertiary;
+    border-color: $color-text-tertiary;
+  }
+}
+
+.checkIcon {
+  color: $color-text-white;
+  font-size: 26rpx;
+  font-weight: $font-weight-bold;
+  line-height: 1;
+}
+
+.label {
+  font-size: $font-size-md;
+  color: $color-text-primary;
+  flex: 1;
+
+  &.labelChecked {
+    color: $color-success;
+    font-weight: $font-weight-medium;
+  }
+}
