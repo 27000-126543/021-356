@@ -1,4 +1,5 @@
-import { HandoverRecord, todayStr } from '@/types'
+import { HandoverRecord } from '@/types'
+import { todayStr } from '@/utils'
 
 export const mockHandovers: HandoverRecord[] = [
   {

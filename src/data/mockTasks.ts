@@ -1,4 +1,5 @@
-import { PourTask, CHECK_ITEMS_TEMPLATE, todayStr } from '@/types'
+import { PourTask, CHECK_ITEMS_TEMPLATE } from '@/types'
+import { todayStr } from '@/utils'
 
 export const mockTasks: PourTask[] = [
   {

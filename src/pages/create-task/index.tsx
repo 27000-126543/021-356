@@ -3,21 +3,16 @@ import { View, Text, Input, Textarea } from '@tarojs/components'
 import Taro from '@tarojs/taro'
 import classnames from 'classnames'
 import { useApp } from '@/store/AppContext'
-import { todayStr } from '@/utils'
+import { getDefaultEstimateTime } from '@/utils'
 import styles from './index.module.scss'
 
 const CreateTaskPage: React.FC = () => {
   const { currentUser, addTask } = useApp()
 
-  const now = new Date()
-  const defaultTime = `${todayStr()} ${String(now.getHours()).padStart(2, '0')}:${String(
-    Math.ceil(now.getMinutes() / 10) * 10
-  ).padStart(2, '0')}`
-
   const [form, setForm] = useState({
     location: '',
     pumpNumber: '',
-    estimatedStartTime: defaultTime,
+    estimatedStartTime: getDefaultEstimateTime(),
     onDutyStaff: currentUser.name,
     notes: ''
   })

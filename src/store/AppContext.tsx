@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react'
+import React, { createContext, useContext, useState, useCallback, useEffect, ReactNode } from 'react'
+import Taro from '@tarojs/taro'
 import {
   UserRole,
   User,
@@ -12,6 +13,9 @@ import {
 import { mockTasks } from '@/data/mockTasks'
 import { mockHandovers } from '@/data/mockHandovers'
 import { genId } from '@/utils'
+
+const STORAGE_KEY_TASKS = 'pour_tasks_v1'
+const STORAGE_KEY_HANDOVERS = 'pour_handovers_v1'
 
 interface AppContextValue {
   currentUser: User
@@ -31,6 +35,7 @@ interface AppContextValue {
   handovers: HandoverRecord[]
   addHandover: (record: Omit<HandoverRecord, 'id' | 'status' | 'createdAt'>) => HandoverRecord
   confirmHandover: (id: string, toUser: string) => void
+  resetToMock: () => void
 }
 
 const AppContext = createContext<AppContextValue | undefined>(undefined)
@@ -41,10 +46,61 @@ const defaultUsers: Record<UserRole, User> = {
   supervisor: { id: 'u3', name: '陈工', role: 'supervisor', phone: '137****9012' }
 }
 
+/** 从本地存储加载数据，不存在则返回 mock */
+const loadTasks = (): PourTask[] => {
+  try {
+    const raw = Taro.getStorageSync(STORAGE_KEY_TASKS)
+    if (raw && Array.isArray(raw) && raw.length > 0) {
+      console.log('[Storage] 已加载 tasks，共', raw.length, '条')
+      return raw
+    }
+    console.log('[Storage] tasks 为空，使用 mock 初始数据')
+    return mockTasks
+  } catch (e) {
+    console.error('[Storage] 读取 tasks 失败:', e)
+    return mockTasks
+  }
+}
+
+const loadHandovers = (): HandoverRecord[] => {
+  try {
+    const raw = Taro.getStorageSync(STORAGE_KEY_HANDOVERS)
+    if (raw && Array.isArray(raw) && raw.length > 0) {
+      console.log('[Storage] 已加载 handovers，共', raw.length, '条')
+      return raw
+    }
+    console.log('[Storage] handovers 为空，使用 mock 初始数据')
+    return mockHandovers
+  } catch (e) {
+    console.error('[Storage] 读取 handovers 失败:', e)
+    return mockHandovers
+  }
+}
+
 export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User>(defaultUsers.foreman)
-  const [tasks, setTasks] = useState<PourTask[]>(mockTasks)
-  const [handovers, setHandovers] = useState<HandoverRecord[]>(mockHandovers)
+  const [tasks, setTasks] = useState<PourTask[]>(() => loadTasks())
+  const [handovers, setHandovers] = useState<HandoverRecord[]>(() => loadHandovers())
+
+  // tasks 变更时持久化
+  useEffect(() => {
+    try {
+      Taro.setStorageSync(STORAGE_KEY_TASKS, tasks)
+      console.log('[Storage] tasks 已持久化，共', tasks.length, '条')
+    } catch (e) {
+      console.error('[Storage] 保存 tasks 失败:', e)
+    }
+  }, [tasks])
+
+  // handovers 变更时持久化
+  useEffect(() => {
+    try {
+      Taro.setStorageSync(STORAGE_KEY_HANDOVERS, handovers)
+      console.log('[Storage] handovers 已持久化，共', handovers.length, '条')
+    } catch (e) {
+      console.error('[Storage] 保存 handovers 失败:', e)
+    }
+  }, [handovers])
 
   const switchRole = useCallback((role: UserRole) => {
     setCurrentUser(defaultUsers[role])
@@ -184,6 +240,12 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     )
   }, [])
 
+  const resetToMock = useCallback(() => {
+    setTasks(mockTasks)
+    setHandovers(mockHandovers)
+    Taro.showToast({ title: '已重置为示例数据', icon: 'success' })
+  }, [])
+
   return (
     <AppContext.Provider
       value={{
@@ -199,7 +261,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         rectifyPause,
         handovers,
         addHandover,
-        confirmHandover
+        confirmHandover,
+        resetToMock
       }}
     >
       {children}

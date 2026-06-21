@@ -2,7 +2,8 @@ import React, { useMemo } from 'react'
 import { View, Text } from '@tarojs/components'
 import Taro from '@tarojs/taro'
 import { useApp } from '@/store/AppContext'
-import { ROLE_LABEL, todayStr } from '@/types'
+import { ROLE_LABEL } from '@/types'
+import { todayStr } from '@/utils'
 import RoleTabs from '@/components/RoleTabs'
 import styles from './index.module.scss'
 
@@ -14,8 +15,10 @@ const iconMap: Record<string, { bg: string; text: string }> = {
   '关于': { bg: 'rgba(0, 180, 42, 0.08)', text: 'ℹ️' }
 }
 
+const resetIcon = { bg: 'rgba(245, 63, 63, 0.08)', text: '♻️' }
+
 const MinePage: React.FC = () => {
-  const { currentUser, switchRole, tasks, handovers } = useApp()
+  const { currentUser, switchRole, tasks, handovers, resetToMock } = useApp()
 
   const today = todayStr()
   const stats = useMemo(() => {
@@ -28,8 +31,20 @@ const MinePage: React.FC = () => {
   }, [tasks, handovers, today])
 
   const menuItems = ['浇筑记录', '试验记录', '交接历史', '消息通知', '关于']
+  const utilItems = ['重置示例数据']
 
   const handleMenuClick = (label: string) => {
+    if (label === '重置示例数据') {
+      Taro.showModal({
+        title: '确认重置',
+        content: '将清空当前所有数据并恢复为示例数据，确定执行？',
+        confirmColor: '#F53F3F',
+        success: (res) => {
+          if (res.confirm) resetToMock()
+        }
+      }).catch((e) => console.error('[Mine] reset confirm error:', e))
+      return
+    }
     Taro.showToast({ title: `${label}功能开发中`, icon: 'none' })
   }
 
@@ -101,6 +116,28 @@ const MinePage: React.FC = () => {
                 <Text className={styles.itemIconText}>{iconMap[label].text}</Text>
               </View>
               <Text className={styles.itemLabel}>{label}</Text>
+              <Text className={styles.itemArrow}>›</Text>
+            </View>
+          ))}
+        </View>
+      </View>
+
+      <View className={styles.section}>
+        <Text className={styles.sectionTitle}>工具</Text>
+        <View className={styles.listCard}>
+          {utilItems.map((label) => (
+            <View
+              key={label}
+              className={styles.listItem}
+              onClick={() => handleMenuClick(label)}
+            >
+              <View
+                className={styles.itemIcon}
+                style={{ background: resetIcon.bg }}
+              >
+                <Text className={styles.itemIconText}>{resetIcon.text}</Text>
+              </View>
+              <Text className={styles.itemLabel} style={{ color: '#F53F3F' }}>{label}</Text>
               <Text className={styles.itemArrow}>›</Text>
             </View>
           ))}
